@@ -4,8 +4,13 @@ public class TextReader {
     private String baseText;
     private Integer pointer;
 
-    public TextReader(String baseText) {
+    TextReader(String baseText) {
         this.baseText = baseText;
+        this.pointer = 0;
+    }
+
+    public TextReader() {
+        this.baseText = "";
         this.pointer = 0;
     }
 
@@ -39,5 +44,21 @@ public class TextReader {
         }
 
         return "";
+    }
+
+    public void advancePointer(Integer value) {
+        pointer += value;
+    }
+
+    public void advancePointer() {
+        advancePointer(1);
+    }
+
+    public void returnPointer(Integer value) {
+        pointer -= value;
+    }
+
+    public void returnPointer() {
+        returnPointer(1);
     }
 }

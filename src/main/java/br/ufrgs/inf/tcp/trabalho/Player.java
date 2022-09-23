@@ -13,6 +13,13 @@ public class Player {
         this.instrument = instrument;
     }
 
+    public Player() {
+        this.octave = 2;
+        this.volume = 2;
+        this.bpm = 100;
+        this.instrument = "PIANO"; // TODO change
+    }
+
     public int getOctave() {
         return octave;
     }
@@ -49,22 +56,38 @@ public class Player {
         // play note
 
         return note;
-    };
+    }
+
+    public void increaseVolume(Integer value) {
+        this.volume += value;
+    }
 
     public void increaseVolume() {
-        this.volume++;
+        increaseVolume(1);
+    }
+
+    public void decreaseVolume(Integer value) {
+        this.volume -= value;
     }
 
     public void decreaseVolume() {
-        this.volume--;
+        decreaseVolume(1);
+    }
+
+    public void increaseBpm(Integer value) {
+        this.bpm += value;
     }
 
     public void increaseBpm() {
-        this.bpm++;
+        increaseBpm(1);
+    }
+
+    public void decreaseBpm(Integer value) {
+        this.bpm -= value;
     }
 
     public void decreaseBpm() {
-        this.bpm--;
+        decreaseBpm(1);
     }
 
 
