@@ -3,13 +3,13 @@ package br.ufrgs.inf.tcp.trabalho;
 public class Controller {
 
     private TextReader textReader;
-    private Player player;
+    private MusicPlayer player;
     private String lastNote;
 
 
     public Controller() {
         this.textReader = new TextReader(); // TODO get data
-        this.player = new Player();
+        this.player = new MusicPlayer();
         this.lastNote = "";
     }
 
@@ -17,6 +17,8 @@ public class Controller {
     public static void main(String[] args) {
 
         Controller controller = new Controller();
+
+        controller.getTextReader().setBaseText("C D E F G A B C6");
 
         controller.run();
 
@@ -37,8 +39,7 @@ public class Controller {
     }
 
     public void run() {
-        while (textReader.hasNextChar()) {
-            System.out.print(textReader.read());
-        }
+        String note = textReader.getBaseText();
+        lastNote = player.play(note);
     }
 }

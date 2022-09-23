@@ -1,19 +1,23 @@
 package br.ufrgs.inf.tcp.trabalho;
 
-public class Player {
+import org.jfugue.player.Player;
+
+public class MusicPlayer {
     private int octave;
     private int volume;
     private int bpm;
     private String instrument;
 
-    public Player(int octave, int volume, int bpm, String instrument) {
+    private Player player = new Player();
+
+    public MusicPlayer(int octave, int volume, int bpm, String instrument) {
         this.octave = octave;
         this.volume = volume;
         this.bpm = bpm;
         this.instrument = instrument;
     }
 
-    public Player() {
+    public MusicPlayer() {
         this.octave = 2;
         this.volume = 2;
         this.bpm = 100;
@@ -54,6 +58,8 @@ public class Player {
 
     public String play(String note) {
         // play note
+
+        player.play(note);
 
         return note;
     }
