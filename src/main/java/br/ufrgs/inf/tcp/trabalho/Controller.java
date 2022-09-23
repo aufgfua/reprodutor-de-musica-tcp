@@ -4,13 +4,11 @@ public class Controller {
 
     private TextReader textReader;
     private MusicPlayer player;
-    private String lastNote;
 
 
     public Controller() {
         this.textReader = new TextReader(); // TODO get data
         this.player = new MusicPlayer();
-        this.lastNote = "";
     }
 
 
@@ -37,7 +35,10 @@ public class Controller {
     }
 
     public void run() {
-        String note = textReader.getBaseText();
-        lastNote = player.play(note);
+        while (textReader.hasNextChar()) {
+            String note = textReader.read();
+            player.processNote(note);
+        }
+        player.play();
     }
 }

@@ -7,6 +7,8 @@ public class MusicPlayer {
     private int volume;
     private int bpm;
     private String instrument;
+    private String lastNote;
+    private String currentNotes;
 
     private Player player = new Player();
 
@@ -15,13 +17,12 @@ public class MusicPlayer {
         this.volume = volume;
         this.bpm = bpm;
         this.instrument = instrument;
+        this.lastNote = "";
+        this.currentNotes = "";
     }
 
     public MusicPlayer() {
-        this.octave = 2;
-        this.volume = 2;
-        this.bpm = 100;
-        this.instrument = "PIANO"; // TODO change
+        this(2, 2, 100, "Piano");
     }
 
     public int getOctave() {
@@ -56,12 +57,14 @@ public class MusicPlayer {
         this.instrument = instrument;
     }
 
-    public String play(String note) {
+    public void processNote(String note) {
+        currentNotes += note;
+    }
+
+    public void play() {
         // play note
 
-        player.play(note);
-
-        return note;
+        player.play(currentNotes);
     }
 
     public void increaseVolume(Integer value) {
