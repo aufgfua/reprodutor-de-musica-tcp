@@ -22,8 +22,6 @@ public class Controller {
 
         controller.run();
 
-        System.out.println("Hello world!");
-
     }
 
     public String processText(String text) {
