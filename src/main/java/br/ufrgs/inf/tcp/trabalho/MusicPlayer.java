@@ -3,26 +3,37 @@ package br.ufrgs.inf.tcp.trabalho;
 import org.jfugue.player.Player;
 
 public class MusicPlayer {
+
+    public static final int VOLUME_MAX = 1600;
+    public static final int VOLUME_MIN = 200;
+    public static final int VOLUME_DEF = 200;
+    public static final int BPM_MAX = 300;
+    public static final int BPM_MIN = 50;
+    public static final int BPM_DEF = 100;
+    public static final int OCTAVE_MAX = 10; // Min and max values according to JFUGUE documentation (http://www.jfugue.org/articles/differences.html)
+    public static final int OCTAVE_MIN = 0;
+    public static final int OCTAVE_DEF = 5;
+
     private int octave;
     private int volume;
     private int bpm;
     private String instrument;
     private String lastNote;
-    private String currentNotes;
+    private String currentMusic;
 
     private Player player = new Player();
 
     public MusicPlayer(int octave, int volume, int bpm, String instrument) {
-        this.octave = octave;
-        this.volume = volume;
-        this.bpm = bpm;
+        setOctave(octave);
+        setVolume(volume);
+        setBpm(bpm);
         this.instrument = instrument;
         this.lastNote = "";
-        this.currentNotes = "";
+        this.currentMusic = "";
     }
 
     public MusicPlayer() {
-        this(2, 2, 100, "Piano");
+        this(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, "Piano");
     }
 
     public int getOctave() {
@@ -30,7 +41,14 @@ public class MusicPlayer {
     }
 
     public void setOctave(int octave) {
-        this.octave = octave;
+        int filteredOctave = octave;
+        if(filteredOctave > MusicPlayer.OCTAVE_MAX){
+            filteredOctave = MusicPlayer.OCTAVE_MAX;
+        }
+        if(filteredOctave < MusicPlayer.OCTAVE_MIN){
+            filteredOctave = MusicPlayer.OCTAVE_MIN;
+        }
+        this.octave = filteredOctave;
     }
 
     public int getVolume() {
@@ -38,7 +56,15 @@ public class MusicPlayer {
     }
 
     public void setVolume(int volume) {
-        this.volume = volume;
+        int filteredVolume = volume;
+        if(filteredVolume > MusicPlayer.VOLUME_MAX){
+            filteredVolume = MusicPlayer.VOLUME_MAX;
+        }
+        if(filteredVolume < MusicPlayer.VOLUME_MIN){
+            filteredVolume = MusicPlayer.VOLUME_MIN;
+        }
+        this.volume = filteredVolume;
+        appendCommand("X[Volume]=" + this.volume);
     }
 
     public int getBpm() {
@@ -46,7 +72,16 @@ public class MusicPlayer {
     }
 
     public void setBpm(int bpm) {
-        this.bpm = bpm;
+
+        int filteredBpm = bpm;
+        if(filteredBpm > MusicPlayer.BPM_MAX){
+            filteredBpm = MusicPlayer.BPM_MAX;
+        }
+        if(filteredBpm < MusicPlayer.BPM_MIN){
+            filteredBpm = MusicPlayer.BPM_MIN;
+        }
+        this.bpm = filteredBpm;
+        appendCommand("T" + this.bpm);
     }
 
     public String getInstrument() {
@@ -58,17 +93,16 @@ public class MusicPlayer {
     }
 
     public void processNote(String note) {
-        currentNotes += note;
+        appendCommand(note + octave);
     }
 
     public void play() {
-        // play note
-
-        player.play(currentNotes);
+        System.out.println(currentMusic);
+        player.play(currentMusic);
     }
 
     public void increaseVolume(Integer value) {
-        this.volume += value;
+        setVolume(this.volume + value);
     }
 
     public void increaseVolume() {
@@ -76,7 +110,7 @@ public class MusicPlayer {
     }
 
     public void decreaseVolume(Integer value) {
-        this.volume -= value;
+        setVolume(this.volume - value);
     }
 
     public void decreaseVolume() {
@@ -84,7 +118,7 @@ public class MusicPlayer {
     }
 
     public void increaseBpm(Integer value) {
-        this.bpm += value;
+        setBpm(this.bpm + value);
     }
 
     public void increaseBpm() {
@@ -92,11 +126,32 @@ public class MusicPlayer {
     }
 
     public void decreaseBpm(Integer value) {
-        this.bpm -= value;
+        setBpm(this.bpm - value);
     }
 
     public void decreaseBpm() {
         decreaseBpm(1);
+    }
+
+
+    public void increaseOctave(Integer value) {
+        setOctave(this.octave + value);
+    }
+
+    public void increaseOctave() {
+        increaseOctave(1);
+    }
+
+    public void decreaseOctave(Integer value) {
+        setOctave(this.octave - value);
+    }
+
+    public void decreaseOctave() {
+        decreaseOctave(1);
+    }
+
+    public void appendCommand(String command) {
+        this.currentMusic += command + " ";
     }
 
 

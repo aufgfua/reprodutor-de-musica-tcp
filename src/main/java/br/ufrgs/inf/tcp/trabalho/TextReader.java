@@ -1,5 +1,7 @@
 package br.ufrgs.inf.tcp.trabalho;
 
+import java.util.regex.Pattern;
+
 public class TextReader {
     private String baseText;
     private Integer pointer;
@@ -22,8 +24,13 @@ public class TextReader {
         this.baseText = baseText;
     }
 
+
     public boolean hasNextChar() {
-        if (pointer < baseText.length()) {
+        return hasNextChar(1);
+    }
+
+    public boolean hasNextChar(int count) {
+        if (pointer + count <= baseText.length()) {
             return true;
         } else {
             return false;
@@ -32,6 +39,20 @@ public class TextReader {
 
     public String read() {
         return read(1);
+    }
+
+
+    public String readPattern(String pattern) {
+        String findPattern = "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
+        String foundText = "";
+        if(baseText.matches(findPattern)){
+            foundText = baseText.replaceFirst(findPattern, "$1");
+            String restOfText = baseText.replaceFirst(Pattern.quote(foundText), "");
+            baseText = restOfText;
+            return foundText;
+        } else {
+            return read(1);
+        }
     }
 
     public String read(Integer numChars) {
