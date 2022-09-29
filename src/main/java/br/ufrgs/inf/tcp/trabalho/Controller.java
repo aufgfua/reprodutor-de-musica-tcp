@@ -30,6 +30,8 @@ public class Controller {
     }; // Array of [PATTERN,FUNCTION]
     private static final String patternNotFound = TextCommand.NOP.name();
 
+    private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern->pattern[0]).toArray(String[]::new);
+
     private static final int baseBpmIncrease = 80;
 
     private static final String processedPattern = Arrays.stream(patterns)
@@ -146,7 +148,7 @@ public class Controller {
 
     public void run() {
         while (textReader.hasNextChar()) {
-            String rawText = textReader.readPattern(Controller.processedPattern);
+            String rawText = textReader.readPatterns(Controller.stringPatterns);
 
             System.out.println(rawText);
 

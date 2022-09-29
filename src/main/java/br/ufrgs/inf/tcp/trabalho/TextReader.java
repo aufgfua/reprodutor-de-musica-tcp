@@ -1,7 +1,5 @@
 package br.ufrgs.inf.tcp.trabalho;
 
-import java.util.regex.Pattern;
-
 public class TextReader {
     private String baseText;
     private Integer pointer;
@@ -42,14 +40,26 @@ public class TextReader {
     }
 
 
-    public String readPattern(String pattern) {
+    public String readPatterns(String[] patterns) {
         String workingText = baseText.substring(pointer, baseText.length());
-        String findPattern = "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
+
+        String findPattern = "";
         String foundText = "";
-        System.out.println("/// " + workingText);
-        if(workingText.matches(findPattern)){
-            foundText = workingText.replaceFirst(findPattern, "$1");
-            System.out.print(foundText + " ");
+        String biggestFound = "";
+        for(String pattern : patterns){
+            findPattern =  "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
+
+            // We will do it this way to search for the greatest occurrence. Ex: for it not to find "B" instead of "BPM"
+            if(workingText.matches(findPattern)) {
+                foundText = workingText.replaceFirst(findPattern, "$1");
+                if(foundText.length() > biggestFound.length()) {
+                    biggestFound = foundText;
+                }
+            }
+        }
+
+        foundText = biggestFound;
+        if(foundText != ""){
             pointer += foundText.length();
             return foundText;
         } else {
