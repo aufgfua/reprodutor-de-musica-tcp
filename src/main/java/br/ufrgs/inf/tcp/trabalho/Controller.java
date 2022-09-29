@@ -25,6 +25,7 @@ public class Controller {
             {"\\?", TextCommand.RANDOM.name()},
             {"\n", TextCommand.NEW_LINE.name()},
             {"BPM\\+", TextCommand.INC_BPM.name()},
+            {"BPM\\-", TextCommand.DEC_BPM.name()}, // TODO REMOVE
             {";", TextCommand.SHUFFLE_BPM.name()},
     }; // Array of [PATTERN,FUNCTION]
     private static final String patternNotFound = TextCommand.NOP.name();
@@ -42,7 +43,7 @@ public class Controller {
 
         Controller controller = new Controller();
 
-        controller.getTextReader().setBaseText("R-R-BR+BER+ER-ER+E");
+        controller.getTextReader().setBaseText("R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E");
 
         controller.run();
 
@@ -121,6 +122,9 @@ public class Controller {
             case INC_BPM:
                 player.increaseBpm(Controller.baseBpmIncrease);
                 break;
+            case DEC_BPM:
+                player.decreaseBpm(Controller.baseBpmIncrease);
+                break;
             case RANDOM:
                 String[] notes = new String[]{"A","B","C","D","E","F","G"};
                 int randomNote = new Random().nextInt(notes.length);
@@ -143,6 +147,8 @@ public class Controller {
     public void run() {
         while (textReader.hasNextChar()) {
             String rawText = textReader.readPattern(Controller.processedPattern);
+
+            System.out.println(rawText);
 
             TextCommand processedCommand = processText(rawText);
 

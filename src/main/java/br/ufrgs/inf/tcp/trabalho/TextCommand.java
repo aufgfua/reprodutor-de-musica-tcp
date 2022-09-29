@@ -17,6 +17,7 @@ public enum TextCommand {
     RANDOM,
     NEW_LINE,
     INC_BPM,
+    DEC_BPM,
     SHUFFLE_BPM,
     NOP
 }

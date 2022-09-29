@@ -43,12 +43,14 @@ public class TextReader {
 
 
     public String readPattern(String pattern) {
+        String workingText = baseText.substring(pointer, baseText.length());
         String findPattern = "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
         String foundText = "";
-        if(baseText.matches(findPattern)){
-            foundText = baseText.replaceFirst(findPattern, "$1");
-            String restOfText = baseText.replaceFirst(Pattern.quote(foundText), "");
-            baseText = restOfText;
+        System.out.println("/// " + workingText);
+        if(workingText.matches(findPattern)){
+            foundText = workingText.replaceFirst(findPattern, "$1");
+            System.out.print(foundText + " ");
+            pointer += foundText.length();
             return foundText;
         } else {
             return read(1);
