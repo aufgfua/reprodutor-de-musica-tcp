@@ -8,6 +8,7 @@ public abstract class UIView extends JFrame {
 
     private static final int musicInputVerticalPadding = 55;
     private static final int musicInputColumnCount = 35;
+    private static final String temporaryTestMusicInitialString = "R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E";
     private JPanel mainPanel;
     private JPanel textPanel;
     private JPanel controlsPanel;
@@ -40,19 +41,12 @@ public abstract class UIView extends JFrame {
     public JPanel getTextPanel() {
         if (textPanel == null) {
             textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, UIView.musicInputVerticalPadding));
-            musicInputField = new JTextField(musicInputColumnCount);
+            musicInputField = new JTextField(temporaryTestMusicInitialString, musicInputColumnCount);
             textPanel.add(musicInputField);
         }
         return textPanel;
     }
 
-    public JTextField getMusicInputField() {
-        return musicInputField;
-    }
-
-    public String getMusicText() {
-        return musicInputField.getText();
-    }
 
     protected abstract void playButtonClick(ActionEvent ev);
 
@@ -69,5 +63,13 @@ public abstract class UIView extends JFrame {
             controlsPanel.add(btnPlay);
         }
         return controlsPanel;
+    }
+
+    public JTextField getMusicInputField() {
+        return musicInputField;
+    }
+
+    public String getMusicText() {
+        return musicInputField.getText();
     }
 }

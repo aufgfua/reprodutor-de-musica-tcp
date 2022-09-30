@@ -15,9 +15,6 @@ public class PlayerUI extends UIView {
 
         this.controller = new PlayerController();
 
-        //controller.getTextReader().setBaseText("R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E");
-
-        //controller.run();
     }
 
     public PlayerController getController() {
