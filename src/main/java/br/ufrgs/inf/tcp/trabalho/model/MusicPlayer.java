@@ -116,6 +116,7 @@ public class MusicPlayer {
     public void play() {
         System.out.println(currentMusic);
         player.play(currentMusic);
+        currentMusic = "";
     }
 
     public void increaseBpm(Integer value) {
