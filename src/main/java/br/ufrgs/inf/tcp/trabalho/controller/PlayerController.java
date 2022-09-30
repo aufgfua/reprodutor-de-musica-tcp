@@ -1,25 +1,27 @@
-package br.ufrgs.inf.tcp.trabalho;
+package br.ufrgs.inf.tcp.trabalho.controller;
+
+import br.ufrgs.inf.tcp.trabalho.model.MusicPlayer;
+import br.ufrgs.inf.tcp.trabalho.model.TextCommand;
+import br.ufrgs.inf.tcp.trabalho.model.TextReader;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Controller {
+public class PlayerController {
 
-    private TextReader textReader;
-    private MusicPlayer player;
     private static final String[][] patterns = new String[][]{
-            {"A|a",TextCommand.A.name()},
-            {"B|b",TextCommand.B.name()},
-            {"C|c",TextCommand.C.name()},
-            {"D|d",TextCommand.D.name()},
-            {"E|e",TextCommand.E.name()},
-            {"F|f",TextCommand.F.name()},
-            {"G|g",TextCommand.G.name()},
-            {" ",TextCommand.SPACE.name()},
-            {"\\+",TextCommand.INC_VOLUME.name()},
-            {"\\-",TextCommand.DEC_VOLUME.name()},
-            {"O|o|I|i|U|u",TextCommand.OTHER_VOWEL.name()},
+            {"A|a", TextCommand.A.name()},
+            {"B|b", TextCommand.B.name()},
+            {"C|c", TextCommand.C.name()},
+            {"D|d", TextCommand.D.name()},
+            {"E|e", TextCommand.E.name()},
+            {"F|f", TextCommand.F.name()},
+            {"G|g", TextCommand.G.name()},
+            {" ", TextCommand.SPACE.name()},
+            {"\\+", TextCommand.INC_VOLUME.name()},
+            {"\\-", TextCommand.DEC_VOLUME.name()},
+            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
             {"R\\+", TextCommand.INC_OCTAVE.name()},
             {"R\\-", TextCommand.DEC_OCTAVE.name()},
             {"\\?", TextCommand.RANDOM.name()},
@@ -29,30 +31,18 @@ public class Controller {
             {";", TextCommand.SHUFFLE_BPM.name()},
     }; // Array of [PATTERN,FUNCTION]
     private static final String patternNotFound = TextCommand.NOP.name();
-
-    private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern->pattern[0]).toArray(String[]::new);
-
+    private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
     private static final int baseBpmIncrease = 80;
-
     private static final String processedPattern = Arrays.stream(patterns)
             .map(pattern -> pattern[0])
             .collect(
                     Collectors.joining("|")
             ); // processed pattern to find next function
+    private TextReader textReader;
+    private MusicPlayer player;
 
 
-    public static void main(String[] args) {
-
-        Controller controller = new Controller();
-
-        controller.getTextReader().setBaseText("R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E");
-
-        controller.run();
-
-    }
-
-
-    public Controller() {
+    public PlayerController() {
         this.textReader = new TextReader(); // TODO get data
         this.player = new MusicPlayer();
     }
@@ -73,26 +63,26 @@ public class Controller {
 
 
     public TextCommand processText(String text) {
-        String[][] mappedPatterns = Controller.patterns;
+        String[][] mappedPatterns = PlayerController.patterns;
         TextCommand command = null;
 
-        for(String[] pattern : mappedPatterns) {
+        for (String[] pattern : mappedPatterns) {
             String searchCommand = "^" + pattern[0] + "$"; // now we search between the static mapped commands to find its functionality
             // this time we want ^text$ (to find which mapped command is exactly between line beginning (^) and line end ($)
 
-            if(text.matches(searchCommand)) {
+            if (text.matches(searchCommand)) {
                 command = TextCommand.valueOf(pattern[1]);
             }
         }
-        if(command == null){
-            command = TextCommand.valueOf(Controller.patternNotFound);
+        if (command == null) {
+            command = TextCommand.valueOf(PlayerController.patternNotFound);
         }
         return command;
     }
 
-    private void processCommand(TextCommand command){
+    private void processCommand(TextCommand command) {
 
-        switch(command) {
+        switch (command) {
             case A:
             case B:
             case C:
@@ -122,13 +112,13 @@ public class Controller {
                 player.decreaseOctave();
                 break;
             case INC_BPM:
-                player.increaseBpm(Controller.baseBpmIncrease);
+                player.increaseBpm(PlayerController.baseBpmIncrease);
                 break;
             case DEC_BPM:
-                player.decreaseBpm(Controller.baseBpmIncrease);
+                player.decreaseBpm(PlayerController.baseBpmIncrease);
                 break;
             case RANDOM:
-                String[] notes = new String[]{"A","B","C","D","E","F","G"};
+                String[] notes = new String[]{"A", "B", "C", "D", "E", "F", "G"};
                 int randomNote = new Random().nextInt(notes.length);
                 player.processNote(notes[randomNote]);
                 break;
@@ -148,7 +138,7 @@ public class Controller {
 
     public void run() {
         while (textReader.hasNextChar()) {
-            String rawText = textReader.readPatterns(Controller.stringPatterns);
+            String rawText = textReader.readPatterns(PlayerController.stringPatterns);
 
             System.out.println(rawText);
 

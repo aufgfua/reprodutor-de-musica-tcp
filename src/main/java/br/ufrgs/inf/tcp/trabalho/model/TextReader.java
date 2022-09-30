@@ -1,4 +1,4 @@
-package br.ufrgs.inf.tcp.trabalho;
+package br.ufrgs.inf.tcp.trabalho.model;
 
 public class TextReader {
     private String baseText;
@@ -20,6 +20,7 @@ public class TextReader {
 
     public void setBaseText(String baseText) {
         this.baseText = baseText;
+        this.pointer = 0;
     }
 
 
@@ -46,20 +47,20 @@ public class TextReader {
         String findPattern = "";
         String foundText = "";
         String biggestFound = "";
-        for(String pattern : patterns){
-            findPattern =  "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
+        for (String pattern : patterns) {
+            findPattern = "^(" + pattern + ").*$"; // we will replace all text with everything that is not PATTERN
 
             // We will do it this way to search for the greatest occurrence. Ex: for it not to find "B" instead of "BPM"
-            if(workingText.matches(findPattern)) {
+            if (workingText.matches(findPattern)) {
                 foundText = workingText.replaceFirst(findPattern, "$1");
-                if(foundText.length() > biggestFound.length()) {
+                if (foundText.length() > biggestFound.length()) {
                     biggestFound = foundText;
                 }
             }
         }
 
         foundText = biggestFound;
-        if(foundText != ""){
+        if (foundText != "") {
             pointer += foundText.length();
             return foundText;
         } else {

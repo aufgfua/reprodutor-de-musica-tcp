@@ -1,4 +1,4 @@
-package br.ufrgs.inf.tcp.trabalho;
+package br.ufrgs.inf.tcp.trabalho.model;
 
 public enum TextCommand {
     A,

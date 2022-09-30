@@ -1,4 +1,4 @@
-package br.ufrgs.inf.tcp.trabalho;
+package br.ufrgs.inf.tcp.trabalho.model;
 
 import org.jfugue.player.Player;
 
@@ -42,10 +42,10 @@ public class MusicPlayer {
 
     public void setOctave(int octave) {
         int filteredOctave = octave;
-        if(filteredOctave > MusicPlayer.OCTAVE_MAX){
+        if (filteredOctave > MusicPlayer.OCTAVE_MAX) {
             filteredOctave = MusicPlayer.OCTAVE_MAX;
         }
-        if(filteredOctave < MusicPlayer.OCTAVE_MIN){
+        if (filteredOctave < MusicPlayer.OCTAVE_MIN) {
             filteredOctave = MusicPlayer.OCTAVE_MIN;
         }
         this.octave = filteredOctave;
@@ -57,15 +57,32 @@ public class MusicPlayer {
 
     public void setVolume(int volume) {
         int filteredVolume = volume;
-        if(filteredVolume > MusicPlayer.VOLUME_MAX){
+        if (filteredVolume > MusicPlayer.VOLUME_MAX) {
             filteredVolume = MusicPlayer.VOLUME_MAX;
         }
-        if(filteredVolume < MusicPlayer.VOLUME_MIN){
+        if (filteredVolume < MusicPlayer.VOLUME_MIN) {
             filteredVolume = MusicPlayer.VOLUME_MIN;
         }
         this.volume = filteredVolume;
         appendCommand("X[Volume]=" + this.volume);
     }
+
+    public void increaseVolume(Integer value) {
+        setVolume(this.volume + value);
+    }
+
+    public void increaseVolume() {
+        increaseVolume(1);
+    }
+
+    public void decreaseVolume(Integer value) {
+        setVolume(this.volume - value);
+    }
+
+    public void decreaseVolume() {
+        decreaseVolume(1);
+    }
+
 
     public int getBpm() {
         return bpm;
@@ -74,10 +91,10 @@ public class MusicPlayer {
     public void setBpm(int bpm) {
 
         int filteredBpm = bpm;
-        if(filteredBpm > MusicPlayer.BPM_MAX){
+        if (filteredBpm > MusicPlayer.BPM_MAX) {
             filteredBpm = MusicPlayer.BPM_MAX;
         }
-        if(filteredBpm < MusicPlayer.BPM_MIN){
+        if (filteredBpm < MusicPlayer.BPM_MIN) {
             filteredBpm = MusicPlayer.BPM_MIN;
         }
         this.bpm = filteredBpm;
@@ -99,22 +116,6 @@ public class MusicPlayer {
     public void play() {
         System.out.println(currentMusic);
         player.play(currentMusic);
-    }
-
-    public void increaseVolume(Integer value) {
-        setVolume(this.volume + value);
-    }
-
-    public void increaseVolume() {
-        increaseVolume(1);
-    }
-
-    public void decreaseVolume(Integer value) {
-        setVolume(this.volume - value);
-    }
-
-    public void decreaseVolume() {
-        decreaseVolume(1);
     }
 
     public void increaseBpm(Integer value) {
