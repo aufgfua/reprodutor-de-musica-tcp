@@ -113,7 +113,11 @@ public class PlayerController {
             case SPACE:
                 // TODO DOUBLE VOLUME
                 // Double MusicPlayer volume, and go back to the default volume if it reaches the maximum volume
-
+                if (player.getVolume() * 2 <= MusicPlayer.VOLUME_MAX) {
+                    player.increaseVolume(player.getVolume());
+                } else {
+                    player.setDefaultVolume();
+                }
                 break;
             case EXCLAMATION:
                 player.setCurrentInstrument(MusicPlayer.INST_AGOGO);
@@ -122,8 +126,12 @@ public class PlayerController {
                 player.setCurrentInstrument(MusicPlayer.INST_HARPSICHORD);
                 break;
             case INTERROGATION:
-                // TODO INCREASE OCTAVE AND GO BACK TO DEFAULT IF EXCEEDS MAXIMUM
-                player.increaseOctave();
+                // INCREASE OCTAVE AND GO BACK TO DEFAULT IF EXCEEDS MAXIMUM
+                if (player.getOctave() + 1 <= MusicPlayer.OCTAVE_MAX) {
+                    player.increaseOctave(1);
+                } else {
+                    player.setDefaultOctave();
+                }
                 break;
             case NEW_LINE:
                 player.setCurrentInstrument(MusicPlayer.INST_TUBULAR_BELLS);
