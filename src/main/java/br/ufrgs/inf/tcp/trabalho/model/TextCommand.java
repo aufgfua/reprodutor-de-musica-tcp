@@ -9,9 +9,11 @@ public enum TextCommand {
     F,
     G,
     SPACE,
+    LOWERCASE_NOTE,
     INC_VOLUME,
     DEC_VOLUME,
     OTHER_VOWEL,
+    OTHER_CONSOANT,
     INC_OCTAVE,
     DEC_OCTAVE,
     RANDOM,
@@ -19,5 +21,7 @@ public enum TextCommand {
     INC_BPM,
     DEC_BPM,
     SHUFFLE_BPM,
+    EXCLAMATION,
+    CHANGE_INSTRUMENT,
     NOP
 }

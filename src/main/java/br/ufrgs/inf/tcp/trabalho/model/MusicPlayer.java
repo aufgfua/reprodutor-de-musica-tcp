@@ -13,11 +13,12 @@ public class MusicPlayer {
     public static final int OCTAVE_MAX = 10; // Min and max values according to JFUGUE documentation (http://www.jfugue.org/articles/differences.html)
     public static final int OCTAVE_MIN = 0;
     public static final int OCTAVE_DEF = 5;
+    public static final String DEFAULT_INSTRUMENT = "Piano";
 
     private int octave;
     private int volume;
     private int bpm;
-    private String instrument;
+    private String currentInstrument;
     private String lastNote;
     private String currentMusic;
 
@@ -27,13 +28,13 @@ public class MusicPlayer {
         setOctave(octave);
         setVolume(volume);
         setBpm(bpm);
-        this.instrument = instrument;
+        this.currentInstrument = instrument;
         this.lastNote = "";
         this.currentMusic = "";
     }
 
     public MusicPlayer() {
-        this(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, "Piano");
+        this(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, MusicPlayer.DEFAULT_INSTRUMENT);
     }
 
     public int getOctave() {
@@ -101,12 +102,14 @@ public class MusicPlayer {
         appendCommand("T" + this.bpm);
     }
 
-    public String getInstrument() {
-        return instrument;
+    public String getCurrentInstrument() {
+        return currentInstrument;
     }
 
-    public void setInstrument(String instrument) {
-        this.instrument = instrument;
+    public void setCurrentInstrument(String instrument) {
+        this.currentInstrument = instrument.toUpperCase();
+        appendCommand("I[" + this.currentInstrument + "]");
+        //        this.player.changeInstrument(random.nextInt(128));
     }
 
     public void processNote(String note) {
@@ -155,6 +158,5 @@ public class MusicPlayer {
     public void appendCommand(String command) {
         this.currentMusic += command + " ";
     }
-
 
 }

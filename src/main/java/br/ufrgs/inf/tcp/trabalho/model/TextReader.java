@@ -29,11 +29,7 @@ public class TextReader {
     }
 
     public boolean hasNextChar(int count) {
-        if (pointer + count <= baseText.length()) {
-            return true;
-        } else {
-            return false;
-        }
+        return pointer + count <= baseText.length();
     }
 
     public String read() {
@@ -60,7 +56,7 @@ public class TextReader {
         }
 
         foundText = biggestFound;
-        if (foundText != "") {
+        if (!foundText.equals("")) {
             pointer += foundText.length();
             return foundText;
         } else {

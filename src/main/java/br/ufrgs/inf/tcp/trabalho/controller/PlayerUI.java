@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 public class PlayerUI extends UIView {
 
     private static final int WIDTH = 500;
-    private static final int HEIGHT = 250;
+    private static final int HEIGHT = 300;
     private PlayerController controller;
 
     public PlayerUI() {

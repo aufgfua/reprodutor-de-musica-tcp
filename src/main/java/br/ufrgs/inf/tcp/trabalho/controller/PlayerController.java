@@ -10,18 +10,43 @@ import java.util.stream.Collectors;
 
 public class PlayerController {
 
+//    private static final String[][] patterns = new String[][]{
+//            {"A|a", TextCommand.A.name()},
+//            {"B|b", TextCommand.B.name()},
+//            {"C|c", TextCommand.C.name()},
+//            {"D|d", TextCommand.D.name()},
+//            {"E|e", TextCommand.E.name()},
+//            {"F|f", TextCommand.F.name()},
+//            {"G|g", TextCommand.G.name()},
+//            {" ", TextCommand.SPACE.name()},
+//            {"\\+", TextCommand.INC_VOLUME.name()},
+//            {"\\-", TextCommand.DEC_VOLUME.name()},
+//            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
+//            {"R\\+", TextCommand.INC_OCTAVE.name()},
+//            {"R\\-", TextCommand.DEC_OCTAVE.name()},
+//            {"\\?", TextCommand.RANDOM.name()},
+//            {"\n", TextCommand.NEW_LINE.name()},
+//            {"BPM\\+", TextCommand.INC_BPM.name()},
+//            {"BPM\\-", TextCommand.DEC_BPM.name()}, // TODO REMOVE
+//            {";", TextCommand.SHUFFLE_BPM.name()},
+//    }; // Array of [PATTERN,FUNCTION]
+
     private static final String[][] patterns = new String[][]{
-            {"A|a", TextCommand.A.name()},
-            {"B|b", TextCommand.B.name()},
-            {"C|c", TextCommand.C.name()},
-            {"D|d", TextCommand.D.name()},
-            {"E|e", TextCommand.E.name()},
-            {"F|f", TextCommand.F.name()},
-            {"G|g", TextCommand.G.name()},
-            {" ", TextCommand.SPACE.name()},
+            {"A", TextCommand.A.name()},
+            {"B", TextCommand.B.name()},
+            {"C", TextCommand.C.name()},
+            {"D", TextCommand.D.name()},
+            {"E", TextCommand.E.name()},
+            {"F", TextCommand.F.name()},
+            {"G", TextCommand.G.name()},
+            {"a|b|c|d|e|f|g", TextCommand.LOWERCASE_NOTE.name()},
+            {" ", TextCommand.SPACE.name()}, // Dobrar volume or default
+            {"!", TextCommand.EXCLAMATION.name()},
+            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
+            {"H-Z[^IOU]|h-z[^iou]", TextCommand.OTHER_CONSOANT.name()},
+            {"", TextCommand.EXCLAMATION.name()},
             {"\\+", TextCommand.INC_VOLUME.name()},
             {"\\-", TextCommand.DEC_VOLUME.name()},
-            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
             {"R\\+", TextCommand.INC_OCTAVE.name()},
             {"R\\-", TextCommand.DEC_OCTAVE.name()},
             {"\\?", TextCommand.RANDOM.name()},
@@ -29,7 +54,7 @@ public class PlayerController {
             {"BPM\\+", TextCommand.INC_BPM.name()},
             {"BPM\\-", TextCommand.DEC_BPM.name()}, // TODO REMOVE
             {";", TextCommand.SHUFFLE_BPM.name()},
-    }; // Array of [PATTERN,FUNCTION]
+    };
     private static final String patternNotFound = TextCommand.NOP.name();
     private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
     private static final int baseBpmIncrease = 80;
@@ -60,7 +85,6 @@ public class PlayerController {
     public void setTextReader(TextReader textReader) {
         this.textReader = textReader;
     }
-
 
     public TextCommand processText(String text) {
         String[][] mappedPatterns = PlayerController.patterns;
@@ -96,6 +120,9 @@ public class PlayerController {
                 // TODO discover how to pause. For now, will just send space
                 player.processNote(" ");
                 break;
+            case EXCLAMATION:
+                player.setCurrentInstrument("Agogo");
+                break;
             case INC_VOLUME:
                 player.setVolume(player.getVolume() * 2);
                 break;
@@ -103,6 +130,12 @@ public class PlayerController {
                 player.setVolume(MusicPlayer.VOLUME_DEF);
                 break;
             case OTHER_VOWEL:
+                player.setCurrentInstrument("Harpsichord");
+                // TODO Make that weird function
+                break;
+//            case LOWERCASE_NOTE:
+            case OTHER_CONSOANT:
+                player.setCurrentInstrument("Harpsichord");
                 // TODO Make that weird function
                 break;
             case INC_OCTAVE:
