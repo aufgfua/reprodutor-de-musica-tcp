@@ -58,6 +58,7 @@ public class PlayerController {
             ); // processed pattern to find next function
     private TextReader textReader;
     private MusicPlayer player;
+    private char lastChar;
 
 
     public PlayerController() {
@@ -109,8 +110,6 @@ public class PlayerController {
             case G:
                 player.processNote(command.toString());
                 break;
-            case LOWERCASE_NOTE:
-                break;
             case SPACE:
                 // TODO DOUBLE VOLUME
                 // Double MusicPlayer volume, and go back to the default volume if it reaches the maximum volume
@@ -121,9 +120,6 @@ public class PlayerController {
                 break;
             case OTHER_VOWEL:
                 player.setCurrentInstrument(MusicPlayer.INST_HARPSICHORD);
-                break;
-            case OTHER_CONSONANT:
-                // TODO REPEAT LAST NOTE
                 break;
             case INTERROGATION:
                 // TODO INCREASE OCTAVE AND GO BACK TO DEFAULT IF EXCEEDS MAXIMUM
@@ -138,10 +134,11 @@ public class PlayerController {
             case COLON:
                 player.setCurrentInstrument(MusicPlayer.INST_CHURCH_ORGAN);
                 break;
+            case LOWERCASE_NOTE:
+            case OTHER_CONSONANT:
             case ELSE:
                 // TODO REPEAT LAST NOTE
                 break;
-
         }
     }
 
@@ -149,7 +146,7 @@ public class PlayerController {
         while (textReader.hasNextChar()) {
             String rawText = textReader.readPatterns(PlayerController.stringPatterns);
 
-            System.out.println(rawText);
+            setLastChar(rawText.charAt(rawText.length() - 1));
 
             TextCommand processedCommand = processText(rawText);
 
@@ -157,5 +154,13 @@ public class PlayerController {
 
         }
         player.play();
+    }
+
+    public char getLastChar() {
+        return lastChar;
+    }
+
+    public void setLastChar(char lastChar) {
+        this.lastChar = lastChar;
     }
 }

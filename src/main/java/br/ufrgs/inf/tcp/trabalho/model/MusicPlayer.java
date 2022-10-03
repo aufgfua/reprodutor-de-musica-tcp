@@ -115,7 +115,7 @@ public class MusicPlayer {
 
     public void setCurrentInstrument(int instrument) {
         this.currentInstrument = instrument;
-        appendCommand("I" + this.currentInstrument + " ");
+        appendCommand("I" + this.currentInstrument);
         //        this.player.changeInstrument(random.nextInt(128));
     }
 
