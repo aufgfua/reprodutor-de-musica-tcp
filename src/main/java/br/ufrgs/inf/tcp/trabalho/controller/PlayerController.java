@@ -43,19 +43,13 @@ public class PlayerController {
             {" ", TextCommand.SPACE.name()}, // Dobrar volume or default
             {"!", TextCommand.EXCLAMATION.name()},
             {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
-            {"H-Z[^IOU]|h-z[^iou]", TextCommand.OTHER_CONSOANT.name()},
-            {"", TextCommand.EXCLAMATION.name()},
-            {"\\+", TextCommand.INC_VOLUME.name()},
-            {"\\-", TextCommand.DEC_VOLUME.name()},
-            {"R\\+", TextCommand.INC_OCTAVE.name()},
-            {"R\\-", TextCommand.DEC_OCTAVE.name()},
-            {"\\?", TextCommand.RANDOM.name()},
+            {"(?=[H-Zh-z])([^IOUiou])\n", TextCommand.OTHER_CONSONANT.name()},
+            {"\\?", TextCommand.INTERROGATION.name()},
             {"\n", TextCommand.NEW_LINE.name()},
-            {"BPM\\+", TextCommand.INC_BPM.name()},
-            {"BPM\\-", TextCommand.DEC_BPM.name()}, // TODO REMOVE
-            {";", TextCommand.SHUFFLE_BPM.name()},
+            {";", TextCommand.SEMI_COLON.name()},
+            {",", TextCommand.COLON.name()},
     };
-    private static final String patternNotFound = TextCommand.NOP.name();
+    private static final String patternNotFound = TextCommand.ELSE.name();
     private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
     private static final int baseBpmIncrease = 80;
     private static final String processedPattern = Arrays.stream(patterns)
@@ -116,54 +110,42 @@ public class PlayerController {
             case G:
                 player.processNote(command.toString());
                 break;
+            case LOWERCASE_NOTE:
+                break;
             case SPACE:
-                // TODO discover how to pause. For now, will just send space
-                player.processNote(" ");
+                // TODO DOUBLE VOLUME
+                // Double MusicPlayer volume, and go back to the default volume if it reaches the maximum volume
+
                 break;
             case EXCLAMATION:
+                // TODO STATIC VALUE
                 player.setCurrentInstrument("Agogo");
-                break;
-            case INC_VOLUME:
-                player.setVolume(player.getVolume() * 2);
-                break;
-            case DEC_VOLUME:
-                player.setVolume(MusicPlayer.VOLUME_DEF);
                 break;
             case OTHER_VOWEL:
                 player.setCurrentInstrument("Harpsichord");
-                // TODO Make that weird function
+                // TODO STATIC VALUE
                 break;
-//            case LOWERCASE_NOTE:
-            case OTHER_CONSOANT:
-                player.setCurrentInstrument("Harpsichord");
-                // TODO Make that weird function
+            case OTHER_CONSONANT:
+                // TODO REPEAT LAST NOTE
                 break;
-            case INC_OCTAVE:
+            case INTERROGATION:
+                // TODO INCREASE OCTAVE AND GO BACK TO DEFAULT IF EXCEEDS MAXIMUM
                 player.increaseOctave();
                 break;
-            case DEC_OCTAVE:
-                player.decreaseOctave();
+            case NEW_LINE:
+                // TODO CHANGE INSTRUMENT TO #15 TUBULAR BELLS
                 break;
-            case INC_BPM:
-                player.increaseBpm(PlayerController.baseBpmIncrease);
-                break;
-            case DEC_BPM:
-                player.decreaseBpm(PlayerController.baseBpmIncrease);
-                break;
-            case RANDOM:
-                String[] notes = new String[]{"A", "B", "C", "D", "E", "F", "G"};
-                int randomNote = new Random().nextInt(notes.length);
-                player.processNote(notes[randomNote]);
-                break;
-            case SHUFFLE_BPM:
+            case SEMI_COLON:
+                // TODO CHANGE INSTRUMENT TO #76 PAN FLUTE
                 int randomRange = MusicPlayer.BPM_MAX - MusicPlayer.BPM_MIN;
                 int randomBpm = MusicPlayer.BPM_MIN + new Random().nextInt(randomRange);
                 player.setBpm(randomBpm);
                 break;
-            case NEW_LINE:
-                // TODO make instrument selection
+            case COLON:
+                // TODO CHANGE INSTRUMENT TO #20 CHURCH ORGAN
                 break;
-            case NOP:
+            case ELSE:
+                // TODO REPEAT LAST NOTE
                 break;
 
         }

@@ -10,18 +10,12 @@ public enum TextCommand {
     G,
     SPACE,
     LOWERCASE_NOTE,
-    INC_VOLUME,
-    DEC_VOLUME,
     OTHER_VOWEL,
-    OTHER_CONSOANT,
-    INC_OCTAVE,
-    DEC_OCTAVE,
-    RANDOM,
+    OTHER_CONSONANT,
     NEW_LINE,
-    INC_BPM,
-    DEC_BPM,
-    SHUFFLE_BPM,
+    SEMI_COLON,
+    COLON,
     EXCLAMATION,
-    CHANGE_INSTRUMENT,
-    NOP
+    INTERROGATION,
+    ELSE
 }
