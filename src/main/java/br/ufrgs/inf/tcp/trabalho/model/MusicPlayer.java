@@ -52,6 +52,14 @@ public class MusicPlayer {
         this.octave = filteredOctave;
     }
 
+    public void setDefaultOctave() {
+        this.octave = this.OCTAVE_DEF;
+    }
+
+    public void setDefaultVolume() {
+        this.volume = this.VOLUME_DEF;
+    }
+
     public int getVolume() {
         return volume;
     }
