@@ -5,7 +5,6 @@ import br.ufrgs.inf.tcp.trabalho.model.TextCommand;
 import br.ufrgs.inf.tcp.trabalho.model.TextReader;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class PlayerController {
@@ -118,12 +117,10 @@ public class PlayerController {
 
                 break;
             case EXCLAMATION:
-                // TODO STATIC VALUE
-                player.setCurrentInstrument("Agogo");
+                player.setCurrentInstrument(MusicPlayer.INST_AGOGO);
                 break;
             case OTHER_VOWEL:
-                player.setCurrentInstrument("Harpsichord");
-                // TODO STATIC VALUE
+                player.setCurrentInstrument(MusicPlayer.INST_HARPSICHORD);
                 break;
             case OTHER_CONSONANT:
                 // TODO REPEAT LAST NOTE
@@ -133,16 +130,13 @@ public class PlayerController {
                 player.increaseOctave();
                 break;
             case NEW_LINE:
-                // TODO CHANGE INSTRUMENT TO #15 TUBULAR BELLS
+                player.setCurrentInstrument(MusicPlayer.INST_TUBULAR_BELLS);
                 break;
             case SEMI_COLON:
-                // TODO CHANGE INSTRUMENT TO #76 PAN FLUTE
-                int randomRange = MusicPlayer.BPM_MAX - MusicPlayer.BPM_MIN;
-                int randomBpm = MusicPlayer.BPM_MIN + new Random().nextInt(randomRange);
-                player.setBpm(randomBpm);
+                player.setCurrentInstrument(MusicPlayer.INST_PAN_FLUTE);
                 break;
             case COLON:
-                // TODO CHANGE INSTRUMENT TO #20 CHURCH ORGAN
+                player.setCurrentInstrument(MusicPlayer.INST_CHURCH_ORGAN);
                 break;
             case ELSE:
                 // TODO REPEAT LAST NOTE
