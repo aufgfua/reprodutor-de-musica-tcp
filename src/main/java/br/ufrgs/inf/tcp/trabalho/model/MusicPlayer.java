@@ -4,9 +4,9 @@ import org.jfugue.player.Player;
 
 public class MusicPlayer {
 
-    public static final int VOLUME_MAX = 1600;
-    public static final int VOLUME_MIN = 200;
-    public static final int VOLUME_DEF = 200;
+    public static final int VOLUME_MAX = 127;
+    public static final int VOLUME_MIN = 16;
+    public static final int VOLUME_DEF = 32;
     public static final int BPM_MAX = 300;
     public static final int BPM_MIN = 50;
     public static final int BPM_DEF = 100;
@@ -37,7 +37,7 @@ public class MusicPlayer {
         setBpm(bpm);
         this.currentInstrument = instrument;
         this.lastNote = "";
-        this.currentMusic = "";
+        this.currentMusic = ":CON(7, " + VOLUME_DEF + ") I" + DEFAULT_INSTRUMENT + " ";
     }
 
     public MusicPlayer() {
@@ -60,11 +60,11 @@ public class MusicPlayer {
     }
 
     public void setDefaultOctave() {
-        this.octave = this.OCTAVE_DEF;
+        setOctave(this.OCTAVE_DEF);
     }
 
     public void setDefaultVolume() {
-        this.volume = this.VOLUME_DEF;
+        setVolume(this.VOLUME_DEF);
     }
 
     public int getVolume() {
@@ -80,7 +80,7 @@ public class MusicPlayer {
             filteredVolume = MusicPlayer.VOLUME_MIN;
         }
         this.volume = filteredVolume;
-        appendCommand("X[Volume]=" + this.volume);
+        appendCommand(":CON(7, " + this.volume + ")");
     }
 
     public void increaseVolume(Integer value) {
@@ -124,7 +124,6 @@ public class MusicPlayer {
     public void setCurrentInstrument(int instrument) {
         this.currentInstrument = instrument;
         appendCommand("I" + this.currentInstrument);
-        //        this.player.changeInstrument(random.nextInt(128));
     }
 
     public void processNote(String note) {

@@ -31,13 +31,7 @@ public class PlayerController {
 //    }; // Array of [PATTERN,FUNCTION]
 
     private static final String[][] patterns = new String[][]{
-            {"A", TextCommand.A.name()},
-            {"B", TextCommand.B.name()},
-            {"C", TextCommand.C.name()},
-            {"D", TextCommand.D.name()},
-            {"E", TextCommand.E.name()},
-            {"F", TextCommand.F.name()},
-            {"G", TextCommand.G.name()},
+            {"[A-G]", TextCommand.NOTE.name()},
             {"a|b|c|d|e|f|g", TextCommand.LOWERCASE_NOTE.name()},
             {" ", TextCommand.SPACE.name()}, // Dobrar volume or default
             {"!", TextCommand.EXCLAMATION.name()},
@@ -47,6 +41,7 @@ public class PlayerController {
             {"\n", TextCommand.NEW_LINE.name()},
             {";", TextCommand.SEMI_COLON.name()},
             {",", TextCommand.COLON.name()},
+            // TODO EVEN OR ODD NUMBER
     };
     private static final String patternNotFound = TextCommand.ELSE.name();
     private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
@@ -59,6 +54,7 @@ public class PlayerController {
     private TextReader textReader;
     private MusicPlayer player;
     private char lastChar;
+    private String currentText;
 
 
     public PlayerController() {
@@ -101,18 +97,10 @@ public class PlayerController {
     private void processCommand(TextCommand command) {
 
         switch (command) {
-            case A:
-            case B:
-            case C:
-            case D:
-            case E:
-            case F:
-            case G:
-                player.processNote(command.toString());
+            case NOTE:
+                player.processNote(getCurrentText().toUpperCase());
                 break;
             case SPACE:
-                // TODO DOUBLE VOLUME
-                // Double MusicPlayer volume, and go back to the default volume if it reaches the maximum volume
                 if (player.getVolume() * 2 <= MusicPlayer.VOLUME_MAX) {
                     player.increaseVolume(player.getVolume());
                 } else {
@@ -126,7 +114,6 @@ public class PlayerController {
                 player.setCurrentInstrument(MusicPlayer.INST_HARPSICHORD);
                 break;
             case INTERROGATION:
-                // INCREASE OCTAVE AND GO BACK TO DEFAULT IF EXCEEDS MAXIMUM
                 if (player.getOctave() + 1 <= MusicPlayer.OCTAVE_MAX) {
                     player.increaseOctave(1);
                 } else {
@@ -145,7 +132,13 @@ public class PlayerController {
             case LOWERCASE_NOTE:
             case OTHER_CONSONANT:
             case ELSE:
-                // TODO REPEAT LAST NOTE
+                String lastReadChar = String.valueOf(getLastChar());
+                TextCommand lastCommand = processText(lastReadChar);
+                if (lastCommand == TextCommand.NOTE) {
+                    player.processNote(lastReadChar.toUpperCase());
+                } else {
+                    // TODO WAIT ONE TEMPO
+                }
                 break;
         }
     }
@@ -154,11 +147,13 @@ public class PlayerController {
         while (textReader.hasNextChar()) {
             String rawText = textReader.readPatterns(PlayerController.stringPatterns);
 
-            setLastChar(rawText.charAt(rawText.length() - 1));
+            setCurrentText(rawText);
 
             TextCommand processedCommand = processText(rawText);
 
             processCommand(processedCommand);
+
+            setLastChar(rawText.charAt(rawText.length() - 1));
 
         }
         player.play();
@@ -170,5 +165,13 @@ public class PlayerController {
 
     public void setLastChar(char lastChar) {
         this.lastChar = lastChar;
+    }
+
+    public String getCurrentText() {
+        return currentText;
+    }
+
+    public void setCurrentText(String currentText) {
+        this.currentText = currentText;
     }
 }

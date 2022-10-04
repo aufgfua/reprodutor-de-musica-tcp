@@ -1,13 +1,7 @@
 package br.ufrgs.inf.tcp.trabalho.model;
 
 public enum TextCommand {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
+    NOTE,
     SPACE,
     LOWERCASE_NOTE,
     OTHER_VOWEL,
