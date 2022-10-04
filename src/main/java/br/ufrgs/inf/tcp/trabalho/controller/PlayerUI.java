@@ -30,4 +30,14 @@ public class PlayerUI extends UIView {
         controller.getTextReader().setBaseText(getMusicText());
         controller.run();
     }
+
+    @Override
+    protected void exportButtonClick(ActionEvent ev) {
+
+    }
+
+    @Override
+    protected void importButtonClick(ActionEvent ev) {
+
+    }
 }

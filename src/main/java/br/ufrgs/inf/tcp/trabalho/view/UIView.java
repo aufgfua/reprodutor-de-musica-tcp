@@ -6,19 +6,22 @@ import java.awt.event.ActionEvent;
 
 public abstract class UIView extends JFrame {
 
-    private static final int musicInputVerticalPadding = 55;
+    private static final int musicInputVerticalPadding = 0;
     private static final int musicInputColumnCount = 35;
     private static final int musicInputRows = 6;
     private static final int musicInputCols = 35;
-    private static final String temporaryTestMusicInitialString = "R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E!R-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-EIR-R-BR+BBPM+ER+BPM-ER-BPM+ER+BPM-E";
+    private static final String temporaryTestMusicInitialString = "CDEFGAB?C";
+    private static final int TITLE_FONT_SIZE = 24;
     private JPanel mainPanel;
     private JPanel textPanel;
     private JPanel optionsPanel;
     private JPanel controlsPanel;
     private JButton btnPlay;
+    private JButton btnExport;
     private JButton btnImportFile;
     private JTextField musicInputField;
     private JTextArea musicInputArea;
+
 
     public UIView(int width, int height) {
         super();
@@ -28,8 +31,7 @@ public abstract class UIView extends JFrame {
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(getMainPanel(), BorderLayout.PAGE_START);
         this.getContentPane().add(getTextPanel(), BorderLayout.CENTER);
-//        this.getContentPane().add(getOptionsPanel(), BorderLayout.CENTER);
-        this.getContentPane().add(getControlsPanel(), BorderLayout.PAGE_END);
+        this.getControlsPanel().add(getOptionsPanel(), BorderLayout.PAGE_START);
 
         this.setResizable(false);
 
@@ -39,21 +41,20 @@ public abstract class UIView extends JFrame {
     public JPanel getMainPanel() {
         if (mainPanel == null) {
             mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            mainPanel.add(new JLabel("Music Input:"));
+            JLabel title = new JLabel("Music Player");
+            title.setFont(new Font("Arial", Font.BOLD, UIView.TITLE_FONT_SIZE));
+            mainPanel.add(title);
         }
         return mainPanel;
     }
 
     public JPanel getTextPanel() {
         if (textPanel == null) {
-            textPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, UIView.musicInputVerticalPadding));
-
-//            musicInputField = new JTextField(temporaryTestMusicInitialString, musicInputColumnCount);
-//            musicInputField = new JTextField(temporaryTestMusicInitialString, musicInputColumnCount);
-//            textPanel.add(musicInputField);
+            textPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
 
             musicInputArea = new JTextArea(temporaryTestMusicInitialString, musicInputRows, musicInputCols);
-            textPanel.add(new JScrollPane(musicInputArea));
+            textPanel.add(new JScrollPane(musicInputArea), c);
         }
         return textPanel;
     }
@@ -62,7 +63,8 @@ public abstract class UIView extends JFrame {
         if (optionsPanel == null) {
             optionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-            btnImportFile = new JButton("Import File..");
+
+            btnImportFile = new JButton("Import File...");
 
             optionsPanel.add(btnImportFile);
         }
@@ -72,17 +74,28 @@ public abstract class UIView extends JFrame {
 
     protected abstract void playButtonClick(ActionEvent ev);
 
+    protected abstract void exportButtonClick(ActionEvent ev);
+
+    protected abstract void importButtonClick(ActionEvent ev);
+
     private void events() {
         btnPlay.addActionListener(this::playButtonClick);
+        btnExport.addActionListener(this::exportButtonClick);
+        btnImportFile.addActionListener(this::importButtonClick);
     }
 
     public JPanel getControlsPanel() {
         if (controlsPanel == null) {
-            controlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            controlsPanel = new JPanel(new BorderLayout());
+            this.getContentPane().add(getControlsPanel(), BorderLayout.PAGE_END);
 
+            JPanel playPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             btnPlay = new JButton("Play");
+            btnExport = new JButton("Export File");
+            playPanel.add(btnExport);
+            playPanel.add(btnPlay);
 
-            controlsPanel.add(btnPlay);
+            controlsPanel.add(playPanel, BorderLayout.PAGE_END);
         }
         return controlsPanel;
     }
