@@ -11,10 +11,10 @@ public class PlayerController {
 
     private static final String[][] patterns = new String[][]{
             {"[A-G]", TextCommand.NOTE.name()},
-            {"a|b|c|d|e|f|g", TextCommand.LOWERCASE_NOTE.name()},
-            {" ", TextCommand.SPACE.name()}, // Dobrar volume or default
+            {"[a-g]", TextCommand.LOWERCASE_NOTE.name()},
+            {" ", TextCommand.SPACE.name()},
             {"!", TextCommand.EXCLAMATION.name()},
-            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
+            {"[OoIiUu]", TextCommand.OTHER_VOWEL.name()},
             {"(?=[H-Zh-z])([^IOUiou])\n", TextCommand.OTHER_CONSONANT.name()},
             {"\\d", TextCommand.NUMBER.name()},
             {"\\?", TextCommand.INTERROGATION.name()},

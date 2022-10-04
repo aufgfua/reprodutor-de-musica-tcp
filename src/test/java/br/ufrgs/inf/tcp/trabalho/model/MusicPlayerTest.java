@@ -12,7 +12,7 @@ class MusicPlayerTest {
         assertEquals(MusicPlayer.BPM_MIN, actualMusicPlayer.getBpm());
         assertEquals(1, actualMusicPlayer.getCurrentInstrument());
         assertEquals(1, actualMusicPlayer.getOctave());
-        assertEquals(":CON(7, 31) I0 ", actualMusicPlayer.getCurrentMusic());
+        assertEquals(":CON(7, 63) I0 ", actualMusicPlayer.getCurrentMusic());
     }
 
     @Test
@@ -23,7 +23,7 @@ class MusicPlayerTest {
         assertEquals(MusicPlayer.BPM_MAX, actualMusicPlayer.getBpm());
         assertEquals(MusicPlayer.VOLUME_MAX, actualMusicPlayer.getVolume());
         assertEquals(MusicPlayer.OCTAVE_MAX, actualMusicPlayer.getOctave());
-        assertEquals(":CON(7, 31) I0 ", actualMusicPlayer.getCurrentMusic());
+        assertEquals(":CON(7, 63) I0 ", actualMusicPlayer.getCurrentMusic());
         assertEquals(1, actualMusicPlayer.getCurrentInstrument());
     }
 
@@ -53,8 +53,8 @@ class MusicPlayerTest {
     void testSetVolume() {
         MusicPlayer musicPlayer = new MusicPlayer();
         musicPlayer.setVolume(1);
-        assertEquals(MusicPlayer.INST_TUBULAR_BELLS, musicPlayer.getVolume());
-        assertEquals(":CON(7, 31) I0 :CON(7, 16) ", musicPlayer.getCurrentMusic());
+        assertEquals(MusicPlayer.VOLUME_MIN, musicPlayer.getVolume());
+        assertEquals(":CON(7, 63) I0 :CON(7, 16) ", musicPlayer.getCurrentMusic());
     }
 
     @Test
@@ -62,15 +62,7 @@ class MusicPlayerTest {
         MusicPlayer musicPlayer = new MusicPlayer();
         musicPlayer.setVolume(MusicPlayer.VOLUME_MAX);
         assertEquals(MusicPlayer.VOLUME_MAX, musicPlayer.getVolume());
-        assertEquals(":CON(7, 31) I0 :CON(7, 127) ", musicPlayer.getCurrentMusic());
-    }
-
-    @Test
-    void testSetVolume3() {
-        MusicPlayer musicPlayer = new MusicPlayer();
-        musicPlayer.setVolume(MusicPlayer.BPM_MAX);
-        assertEquals(MusicPlayer.VOLUME_MAX, musicPlayer.getVolume());
-        assertEquals(":CON(7, 31) I0 :CON(7, 127) ", musicPlayer.getCurrentMusic());
+        assertEquals(":CON(7, 63) I0 :CON(7, 127) ", musicPlayer.getCurrentMusic());
     }
 
     @Test
@@ -78,7 +70,7 @@ class MusicPlayerTest {
         MusicPlayer musicPlayer = new MusicPlayer();
         musicPlayer.setBpm(1);
         assertEquals(MusicPlayer.BPM_MIN, musicPlayer.getBpm());
-        assertEquals(":CON(7, 31) I0 T50 ", musicPlayer.getCurrentMusic());
+        assertEquals(":CON(7, 63) I0 T50 ", musicPlayer.getCurrentMusic());
     }
 
     @Test
@@ -86,7 +78,10 @@ class MusicPlayerTest {
         MusicPlayer musicPlayer = new MusicPlayer();
         musicPlayer.setBpm(MusicPlayer.BPM_MAX);
         assertEquals(MusicPlayer.BPM_MAX, musicPlayer.getBpm());
-        assertEquals(":CON(7, 31) I0 T300 ", musicPlayer.getCurrentMusic());
+        assertEquals(":CON(7, 63) I0 T300 ", musicPlayer.getCurrentMusic());
+        musicPlayer.setBpm(musicPlayer.getBpm() + 1);
+        assertEquals(MusicPlayer.BPM_MAX, musicPlayer.getBpm());
+        assertEquals(":CON(7, 63) I0 T300 T300 ", musicPlayer.getCurrentMusic());
     }
 
 }

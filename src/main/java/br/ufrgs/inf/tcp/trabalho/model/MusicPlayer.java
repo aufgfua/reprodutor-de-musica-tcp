@@ -6,7 +6,7 @@ public class MusicPlayer {
 
     public static final int VOLUME_MAX = 127;
     public static final int VOLUME_MIN = 16;
-    public static final int VOLUME_DEF = 31;
+    public static final int VOLUME_DEF = 63;
     public static final int BPM_MAX = 300;
     public static final int BPM_MIN = 50;
     public static final int BPM_DEF = 100;
