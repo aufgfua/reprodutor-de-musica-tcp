@@ -32,7 +32,7 @@ public class PlayerController {
 
 
     public PlayerController() {
-        this.textReader = new TextReader(); // TODO get data
+        this.textReader = new TextReader();
         this.player = new MusicPlayer();
     }
 
