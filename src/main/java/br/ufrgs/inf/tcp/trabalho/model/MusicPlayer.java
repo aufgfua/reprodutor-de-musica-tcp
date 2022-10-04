@@ -6,7 +6,7 @@ public class MusicPlayer {
 
     public static final int VOLUME_MAX = 127;
     public static final int VOLUME_MIN = 16;
-    public static final int VOLUME_DEF = 32;
+    public static final int VOLUME_DEF = 31;
     public static final int BPM_MAX = 300;
     public static final int BPM_MIN = 50;
     public static final int BPM_DEF = 100;
@@ -99,13 +99,11 @@ public class MusicPlayer {
         decreaseVolume(1);
     }
 
-
     public int getBpm() {
         return bpm;
     }
 
     public void setBpm(int bpm) {
-
         int filteredBpm = bpm;
         if (filteredBpm > MusicPlayer.BPM_MAX) {
             filteredBpm = MusicPlayer.BPM_MAX;
@@ -124,6 +122,13 @@ public class MusicPlayer {
     public void setCurrentInstrument(int instrument) {
         this.currentInstrument = instrument;
         appendCommand("I" + this.currentInstrument);
+    }
+
+    public void addPause(int quantity) {
+        while (quantity > 0) {
+            appendCommand("RW");
+            quantity--;
+        }
     }
 
     public void processNote(String note) {
@@ -151,7 +156,6 @@ public class MusicPlayer {
     public void decreaseBpm() {
         decreaseBpm(1);
     }
-
 
     public void increaseOctave(Integer value) {
         setOctave(this.octave + value);

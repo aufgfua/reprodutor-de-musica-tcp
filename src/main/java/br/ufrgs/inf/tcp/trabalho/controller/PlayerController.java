@@ -115,7 +115,7 @@ public class PlayerController {
                 if (lastCommand == TextCommand.NOTE) {
                     player.processNote(lastReadChar.toUpperCase());
                 } else {
-                    // TODO WAIT ONE TEMPO
+                    player.addPause(1);
                 }
                 break;
         }
