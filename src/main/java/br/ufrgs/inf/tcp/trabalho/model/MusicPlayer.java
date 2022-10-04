@@ -193,8 +193,5 @@ public class MusicPlayer {
         this.currentMusic = currentMusic;
     }
 
-    public String getMidiText() {
-        return getCurrentMusic();
-    }
 
 }

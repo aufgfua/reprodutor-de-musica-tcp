@@ -1,13 +1,14 @@
 package br.ufrgs.inf.tcp.trabalho.controller;
 
 import br.ufrgs.inf.tcp.trabalho.view.UIView;
+import org.jfugue.midi.MidiFileManager;
+import org.jfugue.pattern.Pattern;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class PlayerUI extends UIView {
 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 300;
-    private static final String DEFAULT_FILENAME = "midi_output.txt";
+    private static final String DEFAULT_FILENAME = "midi_output";
     private PlayerController controller;
 
     public PlayerUI() {
@@ -51,15 +52,18 @@ public class PlayerUI extends UIView {
 
         filename = filename.length() == 0 ? DEFAULT_FILENAME : filename;
 
+        filename += ".mid";
+
         controller.getTextReader().setBaseText(this.getMusicText());
         controller.getPlayer().restart();
         controller.processAllText();
         String midiText = controller.getMidiText();
 
         try {
-            FileWriter writer = new FileWriter(filename);
-            writer.write(midiText);
-            writer.close();
+            File outputFile = new File(filename);
+            Pattern pattern = new Pattern();
+            pattern.add(midiText);
+            MidiFileManager.savePatternToMidi(pattern, outputFile);
             this.showMessage("Export successful!", "Export");
         } catch (IOException e) {
             this.showMessage("File cannot be written.\nIOException");
