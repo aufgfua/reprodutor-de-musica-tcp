@@ -4,7 +4,7 @@ public class TextReader {
     private String baseText;
     private Integer pointer;
 
-    TextReader(String baseText) {
+    public TextReader(String baseText) {
         this.baseText = baseText;
         this.pointer = 0;
     }
@@ -37,6 +37,8 @@ public class TextReader {
     }
 
 
+    // It reads the current text based on the pointer and in an Array of Regex Patterns (the input patterns)
+    // It returns the biggest match found based on the Regex patterns
     public String readPatterns(String[] patterns) {
         String workingText = baseText.substring(pointer, baseText.length());
 
