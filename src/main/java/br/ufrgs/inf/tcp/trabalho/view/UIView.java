@@ -22,6 +22,9 @@ public abstract class UIView extends JFrame {
     private JTextField musicInputField;
     private JTextArea musicInputArea;
 
+    public void setMusicInput(String text) {
+        this.musicInputArea.setText(text);
+    }
 
     public UIView(int width, int height) {
         super();
