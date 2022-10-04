@@ -6,6 +6,7 @@ public enum TextCommand {
     LOWERCASE_NOTE,
     OTHER_VOWEL,
     OTHER_CONSONANT,
+    NUMBER,
     NEW_LINE,
     SEMI_COLON,
     COLON,

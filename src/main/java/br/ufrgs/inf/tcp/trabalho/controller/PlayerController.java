@@ -16,11 +16,11 @@ public class PlayerController {
             {"!", TextCommand.EXCLAMATION.name()},
             {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
             {"(?=[H-Zh-z])([^IOUiou])\n", TextCommand.OTHER_CONSONANT.name()},
+            {"\\d", TextCommand.NUMBER.name()},
             {"\\?", TextCommand.INTERROGATION.name()},
             {"\n", TextCommand.NEW_LINE.name()},
             {";", TextCommand.SEMI_COLON.name()},
             {",", TextCommand.COLON.name()},
-            // TODO EVEN OR ODD NUMBER
     };
     private static final String patternNotFound = TextCommand.ELSE.name();
     private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
@@ -86,6 +86,10 @@ public class PlayerController {
                 break;
             case OTHER_VOWEL:
                 player.setCurrentInstrument(MusicPlayer.INST_HARPSICHORD);
+                break;
+            case NUMBER:
+                int newInstrument = player.getCurrentInstrument() + Integer.parseInt(getCurrentText());
+                player.setCurrentInstrument(newInstrument);
                 break;
             case INTERROGATION:
                 if (player.getOctave() + 1 <= MusicPlayer.OCTAVE_MAX) {
