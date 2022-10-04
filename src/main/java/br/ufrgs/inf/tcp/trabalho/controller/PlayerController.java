@@ -121,7 +121,7 @@ public class PlayerController {
         }
     }
 
-    public void run() {
+    public void processAllText() {
         while (textReader.hasNextChar()) {
             String rawText = textReader.readPatterns(PlayerController.stringPatterns);
 
@@ -134,6 +134,19 @@ public class PlayerController {
             setLastChar(rawText.charAt(rawText.length() - 1));
 
         }
+    }
+
+    public void run() {
+        run(true);
+    }
+
+    public void run(boolean restart) {
+        if (restart) {
+            player.restart();
+        }
+
+        processAllText();
+
         player.play();
     }
 
@@ -151,5 +164,9 @@ public class PlayerController {
 
     public void setCurrentText(String currentText) {
         this.currentText = currentText;
+    }
+
+    public String getMidiText() {
+        return player.getCurrentMusic();
     }
 }

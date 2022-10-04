@@ -71,6 +71,28 @@ public abstract class UIView extends JFrame {
         return optionsPanel;
     }
 
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void showMessage(String message, String title) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public String showInput(String message) {
+        return (String) JOptionPane.showInputDialog(this, message);
+    }
+
+    public String showInput(String message, String title, String defaultValue) {
+        String result = (String) JOptionPane.showInputDialog(
+                this,
+                message,
+                title,
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null, defaultValue);
+        return result;
+    }
 
     protected abstract void playButtonClick(ActionEvent ev);
 

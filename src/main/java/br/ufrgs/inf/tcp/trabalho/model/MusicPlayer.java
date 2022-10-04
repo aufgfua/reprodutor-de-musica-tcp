@@ -32,16 +32,24 @@ public class MusicPlayer {
     private Player player = new Player();
 
     public MusicPlayer(int octave, int volume, int bpm, int instrument) {
+        restart(octave, volume, bpm, instrument);
+    }
+
+    public MusicPlayer() {
+        this(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, MusicPlayer.DEFAULT_INSTRUMENT);
+    }
+
+    public void restart() {
+        restart(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, MusicPlayer.DEFAULT_INSTRUMENT);
+    }
+
+    public void restart(int octave, int volume, int bpm, int instrument) {
         setOctave(octave);
         setVolume(volume);
         setBpm(bpm);
         this.currentInstrument = instrument;
         this.lastNote = "";
         this.currentMusic = ":CON(7, " + VOLUME_DEF + ") I" + DEFAULT_INSTRUMENT + " ";
-    }
-
-    public MusicPlayer() {
-        this(MusicPlayer.OCTAVE_DEF, MusicPlayer.VOLUME_DEF, MusicPlayer.BPM_DEF, MusicPlayer.DEFAULT_INSTRUMENT);
     }
 
     public int getOctave() {
@@ -175,6 +183,18 @@ public class MusicPlayer {
 
     public void appendCommand(String command) {
         this.currentMusic += command + " ";
+    }
+
+    public String getCurrentMusic() {
+        return currentMusic;
+    }
+
+    public void setCurrentMusic(String currentMusic) {
+        this.currentMusic = currentMusic;
+    }
+
+    public String getMidiText() {
+        return getCurrentMusic();
     }
 
 }
