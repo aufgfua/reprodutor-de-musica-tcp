@@ -5,30 +5,9 @@ import br.ufrgs.inf.tcp.trabalho.model.TextCommand;
 import br.ufrgs.inf.tcp.trabalho.model.TextReader;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class PlayerController {
 
-//    private static final String[][] patterns = new String[][]{
-//            {"A|a", TextCommand.A.name()},
-//            {"B|b", TextCommand.B.name()},
-//            {"C|c", TextCommand.C.name()},
-//            {"D|d", TextCommand.D.name()},
-//            {"E|e", TextCommand.E.name()},
-//            {"F|f", TextCommand.F.name()},
-//            {"G|g", TextCommand.G.name()},
-//            {" ", TextCommand.SPACE.name()},
-//            {"\\+", TextCommand.INC_VOLUME.name()},
-//            {"\\-", TextCommand.DEC_VOLUME.name()},
-//            {"O|o|I|i|U|u", TextCommand.OTHER_VOWEL.name()},
-//            {"R\\+", TextCommand.INC_OCTAVE.name()},
-//            {"R\\-", TextCommand.DEC_OCTAVE.name()},
-//            {"\\?", TextCommand.RANDOM.name()},
-//            {"\n", TextCommand.NEW_LINE.name()},
-//            {"BPM\\+", TextCommand.INC_BPM.name()},
-//            {"BPM\\-", TextCommand.DEC_BPM.name()}, // TODO REMOVE
-//            {";", TextCommand.SHUFFLE_BPM.name()},
-//    }; // Array of [PATTERN,FUNCTION]
 
     private static final String[][] patterns = new String[][]{
             {"[A-G]", TextCommand.NOTE.name()},
@@ -45,12 +24,7 @@ public class PlayerController {
     };
     private static final String patternNotFound = TextCommand.ELSE.name();
     private static final String[] stringPatterns = Arrays.stream(patterns).map(pattern -> pattern[0]).toArray(String[]::new);
-    private static final int baseBpmIncrease = 80;
-    private static final String processedPattern = Arrays.stream(patterns)
-            .map(pattern -> pattern[0])
-            .collect(
-                    Collectors.joining("|")
-            ); // processed pattern to find next function
+
     private TextReader textReader;
     private MusicPlayer player;
     private char lastChar;
