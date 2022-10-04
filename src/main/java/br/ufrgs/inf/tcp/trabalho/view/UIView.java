@@ -10,7 +10,7 @@ public abstract class UIView extends JFrame {
     private static final int musicInputColumnCount = 35;
     private static final int musicInputRows = 6;
     private static final int musicInputCols = 35;
-    private static final String temporaryTestMusicInitialString = "CDEFGAB?C";
+    private static final String temporaryTestMusicInitialString = "ABCDEFG";
     private static final int TITLE_FONT_SIZE = 24;
     private JPanel mainPanel;
     private JPanel textPanel;
@@ -19,12 +19,9 @@ public abstract class UIView extends JFrame {
     private JButton btnPlay;
     private JButton btnExport;
     private JButton btnImportFile;
+    private JButton btnHelp;
     private JTextField musicInputField;
     private JTextArea musicInputArea;
-
-    public void setMusicInput(String text) {
-        this.musicInputArea.setText(text);
-    }
 
     public UIView(int width, int height) {
         super();
@@ -41,12 +38,21 @@ public abstract class UIView extends JFrame {
         this.events();
     }
 
+    public void setMusicInput(String text) {
+        this.musicInputArea.setText(text);
+    }
+
     public JPanel getMainPanel() {
         if (mainPanel == null) {
-            mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            mainPanel = new JPanel(new BorderLayout());
             JLabel title = new JLabel("Music Player");
             title.setFont(new Font("Arial", Font.BOLD, UIView.TITLE_FONT_SIZE));
-            mainPanel.add(title);
+
+            JPanel downPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            downPanel.add(title);
+            mainPanel.add(downPanel, BorderLayout.SOUTH);
+            btnHelp = new JButton("?");
+            mainPanel.add(btnHelp, BorderLayout.EAST);
         }
         return mainPanel;
     }
@@ -103,10 +109,13 @@ public abstract class UIView extends JFrame {
 
     protected abstract void importButtonClick(ActionEvent ev);
 
+    protected abstract void helpButtonClick(ActionEvent ev);
+
     private void events() {
         btnPlay.addActionListener(this::playButtonClick);
         btnExport.addActionListener(this::exportButtonClick);
         btnImportFile.addActionListener(this::importButtonClick);
+        btnHelp.addActionListener(this::helpButtonClick);
     }
 
     public JPanel getControlsPanel() {

@@ -42,7 +42,7 @@ public class PlayerUI extends UIView {
 
     @Override
     protected void exportButtonClick(ActionEvent ev) {
-        String filename = this.showInput("Export target file", "Export", DEFAULT_FILENAME);
+        String filename = this.showInput("Save File", "Export", DEFAULT_FILENAME);
         // throw error if filename is null or if filename length is 0
 
         if (filename == null) { // user canceled input
@@ -63,6 +63,7 @@ public class PlayerUI extends UIView {
             this.showMessage("Export successful!", "Export");
         } catch (IOException e) {
             this.showMessage("File cannot be written.\nIOException");
+            e.printStackTrace();
 //            throw new RuntimeException(e);
         }
 
@@ -90,10 +91,36 @@ public class PlayerUI extends UIView {
                         text += fileIn.nextLine() + "\n";
                     }
                     this.setMusicInput(text);
+                    this.showMessage("Import successful!", "Import");
                 }
             } catch (FileNotFoundException e1) {
+                this.showMessage("Something went wrong.\nFile not found.");
                 e1.printStackTrace();
             }
         }
     }
+
+    @Override
+    protected void helpButtonClick(ActionEvent ev) {
+        this.showMessage("A -> Lá\n" +
+                "B -> Sí\n" +
+                "C -> Dó\n" +
+                "D -> Ré\n" +
+                "E -> Mi\n" +
+                "F -> Fá\n" +
+                "G -> Sol\n" +
+                "a,b,c,d,e,f,g -> Se caractere anterior era NOTA (A a G), repete nota; Caso contrário, Silêncio ou pausa\n" +
+                "Caractere ESPAÇO -> Aumenta volume para o DOBRO do volume; Se não puder aumentar, volta ao volume default (de início)\n" +
+                "! -> Trocar instrumento para o instrumento General MIDI #114 (Agogo)\n" +
+                "O, o, I, i, U, u -> Trocar instrumento para o instrumento General MIDI #7 (Harpsichord)\n" +
+                "Qualquer outra letra consoante -> Se caractere anterior era NOTA (A a G), repete nota; Caso contrário, Silêncio ou pausa\n" +
+                "Dígito ímpar ou par -> Trocar instrumento para o instrumento General MIDI cujo numero é igual ao valor do instrumento ATUAL + valor do dígito\n" +
+                "? -> Aumenta UMA oitava; Se não puder, aumentar, volta à oitava default (de início)\n" +
+                "Nova Linha -> Trocar instrumento para o instrumento General MIDI #15 (Tubular Bells)\n" +
+                "; -> Trocar instrumento para o instrumento General MIDI #76 (Pan Flute)\n" +
+                ", -> Trocar instrumento para o instrumento General MIDI #20 (Church Organ)\n" +
+                "Nenhum dos anteriores -> Se caractere anterior era NOTA (A a G), repete nota; Caso contrário, Silêncio ou pausa", "Help");
+
+    }
+
 }
